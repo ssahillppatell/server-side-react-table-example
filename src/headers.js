@@ -34,13 +34,15 @@ export const headers = {
         {
             accessorFn: row => row.lastName,
             id: 'lastName',
-            cell: info => <i>{info.getValue()}</i>,
+            cell: info => info.getValue(),
             header: () => <span>Last Name</span>,
+            searchable: true
         },
         {
             header: () => <span>Email</span>,
             accessorKey: 'email',
             cell: info => info.getValue(),
+            searchable: true
         },
         {
             header: () => <span>Phone</span>,

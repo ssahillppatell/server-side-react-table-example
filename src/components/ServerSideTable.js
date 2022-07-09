@@ -11,7 +11,7 @@ import "./ServerSideTable.css";
 import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 
-const GetSearchField = ({ setQuery, header }) => {
+const GetSearchField = ({ query, setQuery, header }) => {
     const type = header.column.columnDef.searchType
 
     if(type === 'boolean') {
@@ -20,7 +20,7 @@ const GetSearchField = ({ setQuery, header }) => {
                 onChange={(e) => {
                     const tmpQuery = {};
                     tmpQuery[header.id] = e.target.value;
-                    setQuery(tmpQuery);
+                    setQuery({...query, ...tmpQuery});
                 }}
                 defaultValue=""
             >
@@ -37,7 +37,7 @@ const GetSearchField = ({ setQuery, header }) => {
                 onChange={(e) => {
                     const tmpQuery = {};
                     tmpQuery[header.id] = e.target.value;
-                    setQuery(tmpQuery);
+                    setQuery({...query, ...tmpQuery});
                 }}
                 defaultValue=""
             >
@@ -57,7 +57,7 @@ const GetSearchField = ({ setQuery, header }) => {
             onChange={(e) => {
                 const tmpQuery = {};
                 tmpQuery[header.id] = e.target.value;
-                setQuery(tmpQuery);
+                setQuery({...query, ...tmpQuery});
             }}
         />)
     } else if (type === "daterange") {
@@ -70,7 +70,7 @@ const GetSearchField = ({ setQuery, header }) => {
                     $gte: Date.parse(e.target.elements[0].value),
                     $lte: Date.parse(e.target.elements[1].value),
                 };
-                setQuery(tmpQuery);
+                setQuery({...query, ...tmpQuery});
             }}
         >
             <Row md={3} >
@@ -99,7 +99,7 @@ const GetSearchField = ({ setQuery, header }) => {
                         $regex: "^" + e.target.value,
                         $options: "i"
                     };
-                    setQuery(tmpQuery);
+                    setQuery({...query, ...tmpQuery});
                 }
             }}
         />)
@@ -113,7 +113,7 @@ const GetSearchField = ({ setQuery, header }) => {
                         $regex: "^" + e.target.value,
                         $options: "i"
                     };
-                    setQuery(tmpQuery);
+                    setQuery({...query, ...tmpQuery});
                 }
             }}
         />)
@@ -170,8 +170,8 @@ const ServerSideTable = ({ headers, gqlquery }) => {
 
     const { getHeaderGroups, getRowModel } = tableInstance;
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error :(</p>;
 
     return (
         <div>
@@ -235,7 +235,7 @@ const ServerSideTable = ({ headers, gqlquery }) => {
                                                         : null}
                                                 </div>
                                                 {header.column.columnDef.searchable ?
-                                                    <GetSearchField header={header} setQuery={setQuery} />
+                                                    <GetSearchField query={query} header={header} setQuery={setQuery} />
                                                     : null}
 
                                             </div>
