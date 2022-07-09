@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import "./ServerSideTable.css";
 import { DOCTORS_COLUMNS } from "./headers";
 import { DOCTORS_QUERY } from "./query";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
@@ -210,41 +210,48 @@ const ServerSideTable = () => {
           </tbody>
         </Table>
       </div>
-      <div>
-        <button
+      <div
+        className="mx-4 my-2"
+      >
+        <Button
+          variant="outline-primary"
           disabled={pagination.index === 1}
           onClick={() =>
             setPagination({ ...pagination, index: pagination.index - 1 })
           }
         >
           Previous
-        </button>
+        </Button>
         {
           [pagination.index - 2, pagination.index - 1, pagination.index, pagination.index + 1, pagination.index + 2].map((i) => {
-            if(i > 0) {
+            if(i > 0 && i <= Math.ceil(count / pagination.limit)) {
               return (
-                <button
+                <Button
+                  variant={i === pagination.index ? "primary" : "outline-primary"}
                   key={i}
+                  className="mx-1"
                   onClick={() => setPagination({
                     index: i,
                     limit: pagination.limit
                   })}
                 >
                   {i}
-                </button>
+                </Button>
               )
             } else {
               return null
             }
           })
         }
-        <button
+        <Button
+          variant="outline-primary"
+          disabled={pagination.index === Math.ceil(count / pagination.limit)}
           onClick={() =>
             setPagination({ ...pagination, index: pagination.index + 1 })
           }
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );
