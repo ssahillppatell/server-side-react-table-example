@@ -9,10 +9,10 @@ export const DOCTORS_COLUMNS = [
             return (
                 <div>
                     <Button onClick={() => window.open("https://www.google.com", "_blank")} variant="primary" size="sm" >
-                        <i class="fa-solid fa-pencil"></i>
+                        <i className="fa-solid fa-pencil"></i>
                     </Button>
                     <Button onClick={() => window.open("https://www.google.com", "_blank")} variant="danger" size="sm" >
-                        <i class="fa-solid fa-xmark fa-xl mx-2 "></i>
+                        <i className="fa-solid fa-xmark fa-xl mx-2 "></i>
                     </Button>
                 </div>
             )
@@ -235,6 +235,6 @@ export const DOCTORS_COLUMNS = [
         accessorKey: 'isActive',
         cell: info => info.getValue() ? 'true' : 'false',
         searchable: true,
-        searchType: 'dropdown'
+        searchType: 'boolean'
     }
 ]

@@ -12,10 +12,9 @@ import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 
 const GetFeild = ({ setQuery, header }) => {
-    const type = header?.column?.columnDef?.searchType //type 
-    console.log(type, "type")
+    const type = header.column.columnDef.searchType
 
-    if (type === "dropdown") {
+    if(type === 'boolean') {
         return (
             <Form.Select
                 onChange={(e) => {
@@ -30,6 +29,26 @@ const GetFeild = ({ setQuery, header }) => {
                 </option>
                 <option value="true">true</option>
                 <option value="false">false</option>
+            </Form.Select>
+        )
+    } else if (type === "dropdown") {
+        return (
+            <Form.Select
+                onChange={(e) => {
+                    const tmpQuery = {};
+                    tmpQuery[header.id] = e.target.value;
+                    setQuery(tmpQuery);
+                }}
+                defaultValue=""
+            >
+                <option value="" disabled>
+                    -
+                </option>
+                {
+                    header.column.columnDef.dropdownOptions.map(item => {
+                        return <option key={item} value={item}>{item}</option>
+                    })
+                }
             </Form.Select>
         )
     } else if (type === "date") {
@@ -70,8 +89,21 @@ const GetFeild = ({ setQuery, header }) => {
                 <Button type="submit">🔎</Button>
             </Row>
         </form>)
-    }
-    else {
+    } else if (type === "text") {
+        return (<Form.Control
+            type="search"
+            onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                    const tmpQuery = {};
+                    tmpQuery[header.id] = {
+                        $regex: "^" + e.target.value,
+                        $options: "i"
+                    };
+                    setQuery(tmpQuery);
+                }
+            }}
+        />)
+    } else {
         return (<Form.Control
             type="search"
             onKeyDown={(e) => {
@@ -138,8 +170,8 @@ const ServerSideTable = ({ headers, queryObj }) => {
 
     const { getHeaderGroups, getRowModel } = tableInstance;
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error :(</p>;
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
 
     return (
         <div>
