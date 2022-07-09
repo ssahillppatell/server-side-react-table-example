@@ -13,5 +13,8 @@ table {
 
 .table-header th {
     border-bottom: 2px solid #e5e5e5;
-    border-right: 2px solid #e5e5e5;
+}
+
+table thead{
+    border-bottom: 2px solid black;
 }
