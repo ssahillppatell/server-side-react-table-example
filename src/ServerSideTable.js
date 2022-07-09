@@ -118,6 +118,17 @@ const ServerSideTable = () => {
                             <option value="true">true</option>
                             <option value="false">false</option>
                           </select>
+                        ) : header.column.columnDef.searchType === "date" ? (
+                          <div>
+                            <input
+                              type="date"
+                              onChange={(e) => {
+                                const tmpQuery = {};
+                                tmpQuery[header.id] = e.target.value;
+                                setQuery(tmpQuery);
+                              }}
+                            />
+                          </div>
                         ) : (
                           <div>
                             <input

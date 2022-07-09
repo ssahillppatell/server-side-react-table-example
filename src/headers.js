@@ -51,6 +51,8 @@ export const DOCTORS_COLUMNS = [
         header: () => <span>DOB</span>,
         accessorKey: 'dob',
         cell: info => info.getValue(),
+        searchable: true,
+        searchType: 'date',
     },
     {
         header: () => <span>TAN</span>,
