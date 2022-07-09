@@ -189,7 +189,6 @@ const ServerSideTable = ({ headers, gqlquery }) => {
         <div>
             <div className="table-container"
                 style={{
-                    width: "100vw",
                     overflowX: "auto",
                     position: "relative",
                     height: "calc(50vh - 100px)",
@@ -204,36 +203,37 @@ const ServerSideTable = ({ headers, gqlquery }) => {
                             <tr key={index}>
                                 {headerGroup.headers.map((header, idx) => (
                                     <th
-                                        style={{
-                                            width: '10%',
-                                            cursor: "pointer",
-                                        }}
                                         key={idx}
                                     >
                                         {header.isPlaceholder ? null : (
                                             <div>
                                                 <div
+                                                    style={{
+                                                        cursor: header.column.columnDef.orderable ? "pointer" : "default",
+                                                    }}
                                                     onClick={() => {
-                                                        headerGroup.headers.forEach((h) => {
-                                                            if (h.column.columnDef["sort"]) {
-                                                                if (h.column.id !== header.column.id) {
-                                                                    delete h.column.columnDef["sort"]
+                                                        if(header.column.columnDef.orderable) {
+                                                            headerGroup.headers.forEach((h) => {
+                                                                if (h.column.columnDef["sort"]) {
+                                                                    if (h.column.id !== header.column.id) {
+                                                                        delete h.column.columnDef["sort"]
+                                                                    }
                                                                 }
+                                                            });
+                                                            const tmpSort = {};
+                                                            console.log(header.column.columnDef["sort"]);
+                                                            if (header.column.columnDef["sort"]) {
+                                                                tmpSort[header.id] =
+                                                                    header.column.columnDef["sort"] === 1 ? -1 : 1;
+                                                                header.column.columnDef["sort"] === 1
+                                                                    ? (header.column.columnDef["sort"] = -1)
+                                                                    : (header.column.columnDef["sort"] = 1);
+                                                            } else {
+                                                                tmpSort[header.id] = 1;
+                                                                header.column.columnDef["sort"] = 1;
                                                             }
-                                                        });
-                                                        const tmpSort = {};
-                                                        console.log(header.column.columnDef["sort"]);
-                                                        if (header.column.columnDef["sort"]) {
-                                                            tmpSort[header.id] =
-                                                                header.column.columnDef["sort"] === 1 ? -1 : 1;
-                                                            header.column.columnDef["sort"] === 1
-                                                                ? (header.column.columnDef["sort"] = -1)
-                                                                : (header.column.columnDef["sort"] = 1);
-                                                        } else {
-                                                            tmpSort[header.id] = 1;
-                                                            header.column.columnDef["sort"] = 1;
+                                                            setSort(tmpSort);
                                                         }
-                                                        setSort(tmpSort);
                                                     }}
                                                 >
                                                     {flexRender(

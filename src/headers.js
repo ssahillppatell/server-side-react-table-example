@@ -29,7 +29,8 @@ export const headers = {
             header: () => <span>First Name</span>,
             accessorKey: 'firstName',
             cell: info => info.getValue(),
-            searchable: true
+            searchable: true,
+            orderable: true
         },
         {
             accessorFn: row => row.lastName,
@@ -229,9 +230,10 @@ export const headers = {
         {
             header: () => <span>Created At</span>,
             accessorKey: 'createdAt',
-            cell: info => info.getValue(),
+            cell: info => new Date(info.getValue()).toUTCString(),
             searchable: true,
-            searchType: 'daterange'
+            searchType: 'daterange',
+            orderable: true
         },
         {
             header: () => <span>isActive</span>,
