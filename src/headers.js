@@ -1,15 +1,34 @@
+import { Button } from "react-bootstrap"
+
 // Columns for react table
 export const DOCTORS_COLUMNS = [
+    {
+        header: () => <span>Actions</span>,
+        accessorKey: 'actions',
+        cell: info => {
+            return (
+                <div>
+                    <Button onClick={() => window.open("https://www.google.com", "_blank")} variant="primary" size="sm" >
+                        <i class="fa-solid fa-pencil"></i>
+                    </Button>
+                    <Button onClick={() => window.open("https://www.google.com", "_blank")} variant="danger" size="sm" >
+                        <i class="fa-solid fa-xmark fa-xl mx-2 "></i>
+                    </Button>
+                </div>
+            )
+        },
+    },
     {
         header: () => <span>ID</span>,
         accessorKey: 'id',
         cell: info => info.getValue(),
+        searchable: true
     },
     {
         header: () => <span>First Name</span>,
         accessorKey: 'firstName',
         cell: info => info.getValue(),
-        searchable: true 
+        searchable: true
     },
     {
         accessorFn: row => row.lastName,

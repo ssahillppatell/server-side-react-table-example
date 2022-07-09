@@ -1,6 +1,9 @@
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ServerSideTable from './ServerSideTable'
+import { DOCTORS_QUERY } from "./query";
+import { DOCTORS_COLUMNS } from "./headers";
+
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
@@ -31,7 +34,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <ServerSideTable />
+        <ServerSideTable
+          queryObj={DOCTORS_QUERY}
+          headers={DOCTORS_COLUMNS}
+        />
       </div>
     </ApolloProvider>
   );
