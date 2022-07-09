@@ -20,7 +20,7 @@ const ServerSideTable = () => {
             limit: pagination.limit,
             index: pagination.index,
             sort: JSON.stringify(sort),
-            query: JSON.stringify({}),
+            query: JSON.stringify(query),
         },
         onCompleted: data => {
             setDoctors(data.getDoctors.data)
