@@ -94,12 +94,18 @@ const GetSearchField = ({ query, setQuery, header }) => {
             type="search"
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                    const tmpQuery = {};
-                    tmpQuery[header.id] = {
-                        $regex: "^" + e.target.value,
-                        $options: "i"
-                    };
-                    setQuery({...query, ...tmpQuery});
+                    if(e.target.value.trim() === "") {
+                        const tmpQuery = {...query};
+                        delete tmpQuery[header.id];
+                        setQuery(tmpQuery);
+                    } else {
+                        const tmpQuery = {};
+                        tmpQuery[header.id] = {
+                            $regex: "^" + e.target.value.trim(),
+                            $options: "i"
+                        };
+                        setQuery({...query, ...tmpQuery});
+                    }
                 }
             }}
         />)
@@ -108,12 +114,18 @@ const GetSearchField = ({ query, setQuery, header }) => {
             type="search"
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                    const tmpQuery = {};
-                    tmpQuery[header.id] = {
-                        $regex: "^" + e.target.value,
-                        $options: "i"
-                    };
-                    setQuery({...query, ...tmpQuery});
+                    if(e.target.value.trim() === "") {
+                        const tmpQuery = {...query};
+                        delete tmpQuery[header.id];
+                        setQuery(tmpQuery);
+                    } else {
+                        const tmpQuery = {};
+                        tmpQuery[header.id] = {
+                            $regex: "^" + e.target.value.trim(),
+                            $options: "i"
+                        };
+                        setQuery({...query, ...tmpQuery});
+                    }
                 }
             }}
         />)
