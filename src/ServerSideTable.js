@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { flexRender, getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import React, { useEffect, useState } from 'react'
 
 import './ServerSideTable.css'
@@ -12,12 +12,14 @@ const ServerSideTable = () => {
         index: 1,
         limit: 20,
     })
+    const [sort, setSort] = useState({})
+    const [query, setQuery] = useState({})
 
     const { data, loading, error, refetch } = useQuery(DOCTORS_QUERY, {
         variables: {
             limit: pagination.limit,
             index: pagination.index,
-            sort: JSON.stringify({firstName: 1}),
+            sort: JSON.stringify(sort),
             query: JSON.stringify({}),
         },
         onCompleted: data => {
@@ -29,8 +31,10 @@ const ServerSideTable = () => {
         refetch({
             limit: pagination.limit,
             index: pagination.index,
+            sort: JSON.stringify(sort),
+            query: JSON.stringify(query),
         })
-    }, [pagination, refetch])
+    }, [refetch, pagination, sort, query])
 
     useEffect(() => {
         if (data) {
@@ -42,6 +46,7 @@ const ServerSideTable = () => {
         data: doctors,
         columns: DOCTORS_COLUMNS,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel()
     })
 
     const { getHeaderGroups, getRowModel } = tableInstance
@@ -56,12 +61,68 @@ const ServerSideTable = () => {
                     {getHeaderGroups().map((headerGroup, index) => (
                         <tr key={index}>
                             {headerGroup.headers.map((header, idx) => (
-                                <th key={idx}>
+                                <th
+                                    key={idx}
+                                >
                                     {header.isPlaceholder
                                         ? null
-                                        : flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
+                                        : (
+                                            <div>
+                                                <div
+                                                    onClick={() => {
+                                                        const tmpSort = {}
+                                                        console.log(header.column.columnDef["sort"]);
+                                                        if(header.column.columnDef["sort"]) {
+                                                            tmpSort[header.id] = header.column.columnDef["sort"] === 1 ? -1 : 1
+                                                            header.column.columnDef["sort"] === 1 ? header.column.columnDef["sort"] = -1 : header.column.columnDef["sort"] = 1
+                                                        } else {
+                                                            tmpSort[header.id] = 1
+                                                            header.column.columnDef["sort"] = 1
+                                                        }
+                                                        setSort(tmpSort)
+                                                    }}
+                                                >
+                                                    {
+                                                        flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )
+                                                    }
+                                                    {
+                                                        {
+                                                            asc: ' 🔼',
+                                                            desc: ' 🔽',
+                                                        }[header.column.getIsSorted()] ?? null
+                                                    }
+                                                </div>
+                                                {
+                                                    header.column.columnDef.searchable ? 
+                                                        header.column.columnDef.searchType === 'dropdown' ? (
+                                                            <select
+                                                                onChange={e => {
+                                                                    const tmpQuery = {}
+                                                                    tmpQuery[header.id] = e.target.value
+                                                                    setQuery(tmpQuery)
+                                                                }}
+                                                            >
+                                                                <option value="" disabled>-</option>
+                                                                <option value="true">true</option>
+                                                                <option value="false">false</option>
+                                                            </select>
+                                                        ) : (
+                                                            <div>
+                                                            <input
+                                                                type="text"
+                                                                onChange={(e) => {
+                                                                    const tmpQuery = {}
+                                                                    tmpQuery[header.id] = e.target.value
+                                                                    setQuery(tmpQuery)
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    ) : null
+                                                }
+                                            </div>
                                         )
                                     }
                                 </th>

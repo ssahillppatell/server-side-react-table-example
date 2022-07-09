@@ -9,6 +9,7 @@ export const DOCTORS_COLUMNS = [
         header: () => <span>First Name</span>,
         accessorKey: 'firstName',
         cell: info => info.getValue(),
+        searchable: true 
     },
     {
         accessorFn: row => row.lastName,
@@ -204,6 +205,8 @@ export const DOCTORS_COLUMNS = [
     {
         header: () => <span>isActive</span>,
         accessorKey: 'isActive',
-        cell: info => info.getValue() ? 'Yes' : 'No'
+        cell: info => info.getValue() ? 'true' : 'false',
+        searchable: true,
+        searchType: 'dropdown'
     }
 ]
