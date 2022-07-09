@@ -15,7 +15,7 @@ const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
   const [pagination, setPagination] = useState({
     index: 1,
-    limit: 2,
+    limit: 10,
   });
   const [sort, setSort] = useState({});
   const [query, setQuery] = useState({});
@@ -72,121 +72,122 @@ const ServerSideTable = () => {
           height: "calc(100vh - 100px)",
         }}
       >
-        <div className="table-header">
-          {getHeaderGroups().map((headerGroup, index) => (
-            <tr key={index}>
-              {headerGroup.headers.map((header, idx) => (
-                <th key={idx}>
-                  {header.isPlaceholder ? null : (
-                    <div>
-                      <div
-                        onClick={() => {
-                          headerGroup.headers.forEach((h) => {
-                            if (h.column.columnDef["sort"]) {
-                              if(h.column.id !== header.column.id) {
-                                delete h.column.columnDef["sort"]
+        <table>
+          <thead className="table-header">
+            {getHeaderGroups().map((headerGroup, index) => (
+              <tr key={index}>
+                {headerGroup.headers.map((header, idx) => (
+                  <th key={idx}>
+                    {header.isPlaceholder ? null : (
+                      <div>
+                        <div
+                          onClick={() => {
+                            headerGroup.headers.forEach((h) => {
+                              if (h.column.columnDef["sort"]) {
+                                if(h.column.id !== header.column.id) {
+                                  delete h.column.columnDef["sort"]
+                                }
                               }
+                            });
+                            const tmpSort = {};
+                            console.log(header.column.columnDef["sort"]);
+                            if (header.column.columnDef["sort"]) {
+                              tmpSort[header.id] =
+                                header.column.columnDef["sort"] === 1 ? -1 : 1;
+                              header.column.columnDef["sort"] === 1
+                                ? (header.column.columnDef["sort"] = -1)
+                                : (header.column.columnDef["sort"] = 1);
+                            } else {
+                              tmpSort[header.id] = 1;
+                              header.column.columnDef["sort"] = 1;
                             }
-                          });
-                          const tmpSort = {};
-                          console.log(header.column.columnDef["sort"]);
-                          if (header.column.columnDef["sort"]) {
-                            tmpSort[header.id] =
-                              header.column.columnDef["sort"] === 1 ? -1 : 1;
-                            header.column.columnDef["sort"] === 1
-                              ? (header.column.columnDef["sort"] = -1)
-                              : (header.column.columnDef["sort"] = 1);
-                          } else {
-                            tmpSort[header.id] = 1;
-                            header.column.columnDef["sort"] = 1;
-                          }
-                          setSort(tmpSort);
-                        }}
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                        {header.column.columnDef["sort"]
-                          ? header.column.columnDef["sort"] === 1
-                            ? " 🔼"
-                            : " 🔽"
-                          : null}
-                      </div>
-                      {header.column.columnDef.searchable ? (
-                        header.column.columnDef.searchType === "dropdown" ? (
-                          <select
-                            onChange={(e) => {
-                              const tmpQuery = {};
-                              tmpQuery[header.id] = e.target.value;
-                              setQuery(tmpQuery);
-                            }}
-                          >
-                            <option selected value="" disabled>
-                              -
-                            </option>
-                            <option value="true">true</option>
-                            <option value="false">false</option>
-                          </select>
-                        ) : header.column.columnDef.searchType === "date" ? (
-                          <div>
-                            <input
-                              type="date"
+                            setSort(tmpSort);
+                          }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {header.column.columnDef["sort"]
+                            ? header.column.columnDef["sort"] === 1
+                              ? " 🔼"
+                              : " 🔽"
+                            : null}
+                        </div>
+                        {header.column.columnDef.searchable ? (
+                          header.column.columnDef.searchType === "dropdown" ? (
+                            <select
                               onChange={(e) => {
                                 const tmpQuery = {};
                                 tmpQuery[header.id] = e.target.value;
                                 setQuery(tmpQuery);
                               }}
-                            />
-                          </div>
-                        ) : header.column.columnDef.searchType === "daterange" ? (
-                          <form
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              const tmpQuery = {};
-                              tmpQuery[header.id] = {
-                                $gte: Date.parse(e.target.elements[0].value),
-                                $lte: Date.parse(e.target.elements[1].value),
-                              };
-                              setQuery(tmpQuery);
-                            }}
-                          >
-                            <input
-                              type="date"
-                              placeholder="From"
-                            />
-                            <input
-                              type="date"
-                              placeholder="To"
-                            />
-                            <button type="submit">Submit</button>
-                          </form>
-                        ) : (
-                          <div>
-                            <input
-                              type="text"
-                              onKeyDown={(e) => {
-                                if(e.key === "Enter") {
+                              defaultValue=""
+                            >
+                              <option value="" disabled>
+                                -
+                              </option>
+                              <option value="true">true</option>
+                              <option value="false">false</option>
+                            </select>
+                          ) : header.column.columnDef.searchType === "date" ? (
+                            <div>
+                              <input
+                                type="date"
+                                onChange={(e) => {
                                   const tmpQuery = {};
-                                  tmpQuery[header.id] = {
-                                    $regex: "^" + e.target.value,
-                                    $options: "i"
-                                  };
+                                  tmpQuery[header.id] = e.target.value;
                                   setQuery(tmpQuery);
-                                }
+                                }}
+                              />
+                            </div>
+                          ) : header.column.columnDef.searchType === "daterange" ? (
+                            <form
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                const tmpQuery = {};
+                                tmpQuery[header.id] = {
+                                  $gte: Date.parse(e.target.elements[0].value),
+                                  $lte: Date.parse(e.target.elements[1].value),
+                                };
+                                setQuery(tmpQuery);
                               }}
-                            />
-                          </div>
-                        )
-                      ) : null}
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </div>
-        <table>
+                            >
+                              <input
+                                type="date"
+                                placeholder="From"
+                              />
+                              <input
+                                type="date"
+                                placeholder="To"
+                              />
+                              <button type="submit">Submit</button>
+                            </form>
+                          ) : (
+                            <div>
+                              <input
+                                type="text"
+                                onKeyDown={(e) => {
+                                  if(e.key === "Enter") {
+                                    const tmpQuery = {};
+                                    tmpQuery[header.id] = {
+                                      $regex: "^" + e.target.value,
+                                      $options: "i"
+                                    };
+                                    setQuery(tmpQuery);
+                                  }
+                                }}
+                              />
+                            </div>
+                          )
+                        ) : null}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
           <tbody>
             {getRowModel().rows.map((row, index) => (
               <tr key={index}>
@@ -214,6 +215,7 @@ const ServerSideTable = () => {
             if(i > 0) {
               return (
                 <button
+                  key={i}
                   onClick={() => setPagination({
                     index: i,
                     limit: pagination.limit
