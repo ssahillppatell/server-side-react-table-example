@@ -129,6 +129,28 @@ const ServerSideTable = () => {
                               }}
                             />
                           </div>
+                        ) : header.column.columnDef.searchType === "daterange" ? (
+                          <form
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              const tmpQuery = {};
+                              tmpQuery[header.id] = {
+                                $gte: Date.parse(e.target.elements[0].value),
+                                $lte: Date.parse(e.target.elements[1].value),
+                              };
+                              setQuery(tmpQuery);
+                            }}
+                          >
+                            <input
+                              type="date"
+                              placeholder="From"
+                            />
+                            <input
+                              type="date"
+                              placeholder="To"
+                            />
+                            <button type="submit">Submit</button>
+                          </form>
                         ) : (
                           <div>
                             <input

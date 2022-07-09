@@ -205,6 +205,13 @@ export const DOCTORS_COLUMNS = [
         cell: info => info.getValue()?.map(place => place.isActive).join(', ')
     },
     {
+        header: () => <span>Created At</span>,
+        accessorKey: 'createdAt',
+        cell: info => info.getValue(),
+        searchable: true,
+        searchType: 'daterange'
+    },
+    {
         header: () => <span>isActive</span>,
         accessorKey: 'isActive',
         cell: info => info.getValue() ? 'true' : 'false',
