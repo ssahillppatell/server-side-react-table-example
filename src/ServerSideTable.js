@@ -56,8 +56,8 @@ const ServerSideTable = () => {
 
   const { getHeaderGroups, getRowModel } = tableInstance;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error :(</p>;
 
   return (
     <div>
@@ -112,7 +112,7 @@ const ServerSideTable = () => {
                               setQuery(tmpQuery);
                             }}
                           >
-                            <option value="" disabled>
+                            <option selected value="" disabled>
                               -
                             </option>
                             <option value="true">true</option>
@@ -122,10 +122,15 @@ const ServerSideTable = () => {
                           <div>
                             <input
                               type="text"
-                              onChange={(e) => {
-                                const tmpQuery = {};
-                                tmpQuery[header.id] = e.target.value;
-                                setQuery(tmpQuery);
+                              onKeyDown={(e) => {
+                                if(e.key === "Enter") {
+                                  const tmpQuery = {};
+                                  tmpQuery[header.id] = {
+                                    $regex: "^" + e.target.value,
+                                    $options: "i"
+                                  };
+                                  setQuery(tmpQuery);
+                                }
                               }}
                             />
                           </div>
