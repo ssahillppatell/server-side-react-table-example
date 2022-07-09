@@ -10,12 +10,13 @@ import React, { useEffect, useState } from "react";
 import "./ServerSideTable.css";
 import { DOCTORS_COLUMNS } from "./headers";
 import { DOCTORS_QUERY } from "./query";
+import { Table } from "react-bootstrap";
 
 const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
   const [pagination, setPagination] = useState({
     index: 1,
-    limit: 10,
+    limit: 20,
   });
   const [sort, setSort] = useState({});
   const [query, setQuery] = useState({});
@@ -69,15 +70,22 @@ const ServerSideTable = () => {
           width: "100vw",
           overflowX: "auto",
           position: "relative",
-          height: "calc(100vh - 100px)",
+          height: "calc(50vh - 100px)",
         }}
       >
-        <table>
+        <Table
+          className="text-nowrap"
+        >
           <thead className="table-header">
             {getHeaderGroups().map((headerGroup, index) => (
               <tr key={index}>
                 {headerGroup.headers.map((header, idx) => (
-                  <th key={idx}>
+                  <th
+                    style={{
+                      width: '10%',
+                    }}
+                    key={idx}
+                  >
                     {header.isPlaceholder ? null : (
                       <div>
                         <div
@@ -199,7 +207,7 @@ const ServerSideTable = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
       <div>
         <button
