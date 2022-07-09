@@ -18,7 +18,7 @@ const errorLink = onError(({ graphqlErrors, networkError }) => {
 const link = from([
   errorLink,
   new HttpLink({
-    uri: "https://drlportalbackendprod.azurewebsites.net/",
+    uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
   }),
 ])
 
