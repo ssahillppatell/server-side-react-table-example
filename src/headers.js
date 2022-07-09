@@ -6,14 +6,6 @@ export const DOCTORS_COLUMNS = [
         cell: info => info.getValue(),
     },
     {
-        header: () => <span>ID</span>,
-        accessorKey: 'id',
-        cell: info => {
-            console.log(info)
-            info.getValue()
-        },
-    },
-    {
         header: () => <span>First Name</span>,
         accessorKey: 'firstName',
         cell: info => info.getValue(),
