@@ -65,7 +65,7 @@ const ServerSideTable = () => {
                             {headerGroup.headers.map((header, idx) => (
                                 <th
                                     key={idx}
-                                    className="bg-white  shadow"
+                                    className="bg-white  "
                                 >
                                     {header.isPlaceholder
                                         ? null
