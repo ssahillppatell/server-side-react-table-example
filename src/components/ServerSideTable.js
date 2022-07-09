@@ -271,47 +271,54 @@ const ServerSideTable = ({ headers, gqlquery }) => {
                 </Table>
             </div>
             <div
-                className="mx-4 my-2"
+                className="mx-4 my-3 d-flex justify-content-between align-items-center"
             >
-                <Button
-                    variant="outline-primary"
-                    disabled={pagination.index === 1}
-                    onClick={() =>
-                        setPagination({ ...pagination, index: pagination.index - 1 })
-                    }
+                <span
+                    className="text-muted"
                 >
-                    Previous
-                </Button>
-                {
-                    [pagination.index - 2, pagination.index - 1, pagination.index, pagination.index + 1, pagination.index + 2].map((i) => {
-                        if (i > 0 && i <= Math.ceil(count / pagination.limit)) {
-                            return (
-                                <Button
-                                    variant={i === pagination.index ? "primary" : "outline-primary"}
-                                    key={i}
-                                    className="mx-1"
-                                    onClick={() => setPagination({
-                                        index: i,
-                                        limit: pagination.limit
-                                    })}
-                                >
-                                    {i}
-                                </Button>
-                            )
-                        } else {
-                            return null
+                    Total Count: {count} 
+                </span>
+                <span>
+                    <Button
+                        variant="outline-primary"
+                        disabled={pagination.index === 1}
+                        onClick={() =>
+                            setPagination({ ...pagination, index: pagination.index - 1 })
                         }
-                    })
-                }
-                <Button
-                    variant="outline-primary"
-                    disabled={pagination.index === Math.ceil(count / pagination.limit)}
-                    onClick={() =>
-                        setPagination({ ...pagination, index: pagination.index + 1 })
+                    >
+                        Previous
+                    </Button>
+                    {
+                        [pagination.index - 2, pagination.index - 1, pagination.index, pagination.index + 1, pagination.index + 2].map((i) => {
+                            if (i > 0 && i <= Math.ceil(count / pagination.limit)) {
+                                return (
+                                    <Button
+                                        variant={i === pagination.index ? "primary" : "outline-primary"}
+                                        key={i}
+                                        className="mx-1"
+                                        onClick={() => setPagination({
+                                            index: i,
+                                            limit: pagination.limit
+                                        })}
+                                    >
+                                        {i}
+                                    </Button>
+                                )
+                            } else {
+                                return null
+                            }
+                        })
                     }
-                >
-                    Next
-                </Button>
+                    <Button
+                        variant="outline-primary"
+                        disabled={pagination.index === Math.ceil(count / pagination.limit)}
+                        onClick={() =>
+                            setPagination({ ...pagination, index: pagination.index + 1 })
+                        }
+                    >
+                        Next
+                    </Button>
+                </span>
             </div>
         </div>
     );
