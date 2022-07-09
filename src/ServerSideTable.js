@@ -73,7 +73,9 @@ const ServerSideTable = () => {
                         onClick={() => {
                           headerGroup.headers.forEach((h) => {
                             if (h.column.columnDef["sort"]) {
-                              h.column.columnDef["sort"] = false;
+                              if(h.column.id !== header.column.id) {
+                                delete h.column.columnDef["sort"]
+                              }
                             }
                           });
                           const tmpSort = {};
