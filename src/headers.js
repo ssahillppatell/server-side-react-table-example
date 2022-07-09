@@ -9,32 +9,28 @@ export const DOCTORS_COLUMNS = [
         header: () => <span>First Name</span>,
         accessorKey: 'firstName',
         cell: info => info.getValue(),
-        searchable: true
+        searchable: true 
     },
     {
         accessorFn: row => row.lastName,
         id: 'lastName',
         cell: info => <i>{info.getValue()}</i>,
         header: () => <span>Last Name</span>,
-        searchable: true
     },
     {
         header: () => <span>Email</span>,
         accessorKey: 'email',
         cell: info => info.getValue(),
-        searchable: true
     },
     {
         header: () => <span>Phone</span>,
         accessorKey: 'phone',
         cell: info => info.getValue()?.join(', '),
-        searchable: true
     },
     {
         header: () => <span>Description</span>,
         accessorKey: 'description',
         cell: info => info.getValue(),
-        searchable: true
     },
     {
         header: () => <span>Base City</span>,

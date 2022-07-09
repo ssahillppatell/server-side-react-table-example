@@ -1,7 +1,6 @@
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import ServerSideTable from './ServerSideTable'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const errorLink = onError(({ graphqlErrors, networkError }) => {
   if (graphqlErrors) {
