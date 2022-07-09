@@ -16,7 +16,7 @@ const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
   const [pagination, setPagination] = useState({
     index: 1,
-    limit: 20,
+    limit: 10,
   });
   const [sort, setSort] = useState({});
   const [query, setQuery] = useState({});
@@ -74,6 +74,7 @@ const ServerSideTable = () => {
         }}
       >
         <Table
+          striped bordered hover
           className="text-nowrap"
         >
           <thead className="table-header">

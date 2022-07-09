@@ -11,9 +11,3 @@ table {
     background: #fff;
     box-shadow: 0 2px 0 #e5e5e5;
 }
-
-.table-header th {
-    border-bottom: 2px solid #e5e5e5;
-    border-right: 2px solid #e5e5e5;
-    box-shadow: 0 2px 0 #e5e5e5;
-}
