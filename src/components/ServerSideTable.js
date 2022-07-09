@@ -11,7 +11,7 @@ import "./ServerSideTable.css";
 import { Button, Col, Form, Row, Table } from "react-bootstrap";
 
 
-const GetFeild = ({ setQuery, header }) => {
+const GetSearchField = ({ setQuery, header }) => {
     const type = header.column.columnDef.searchType
 
     if(type === 'boolean') {
@@ -122,7 +122,7 @@ const GetFeild = ({ setQuery, header }) => {
 
 
 
-const ServerSideTable = ({ headers, queryObj }) => {
+const ServerSideTable = ({ headers, gqlquery }) => {
     const [doctors, setDoctors] = useState([]);
     const [pagination, setPagination] = useState({
         index: 1,
@@ -132,7 +132,7 @@ const ServerSideTable = ({ headers, queryObj }) => {
     const [query, setQuery] = useState({});
     const [count, setCount] = useState(0);
 
-    const { data, loading, error, refetch } = useQuery((queryObj), {
+    const { data, loading, error, refetch } = useQuery((gqlquery), {
         variables: {
             limit: pagination.limit,
             index: pagination.index,
@@ -235,7 +235,7 @@ const ServerSideTable = ({ headers, queryObj }) => {
                                                         : null}
                                                 </div>
                                                 {header.column.columnDef.searchable ?
-                                                    <GetFeild header={header} setQuery={setQuery} />
+                                                    <GetSearchField header={header} setQuery={setQuery} />
                                                     : null}
 
                                             </div>
