@@ -56,10 +56,9 @@ const ServerSideTable = () => {
     // if (error) return <p>Error :(</p>;
 
     return (
-        <div className="container  " >
-            <h1 className="" >ServerSideTable</h1>
+        <div className="container " >
             <Table hover className="text-nowrap" >
-                <thead >
+                <thead className="table-header" >
                     {getHeaderGroups().map((headerGroup, index) => (
                         <tr key={index}>
                             {headerGroup.headers.map((header, idx) => (
@@ -104,6 +103,7 @@ const ServerSideTable = () => {
                                                     header.column.columnDef.searchable ?
                                                         header.column.columnDef.searchType === 'dropdown' ? (
                                                             <select
+                                                                className="custom-select"
                                                                 onChange={e => {
                                                                     const tmpQuery = {}
                                                                     tmpQuery[header.id] = e.target.value
@@ -118,6 +118,7 @@ const ServerSideTable = () => {
                                                             <div>
                                                                 <input
                                                                     type="text"
+                                                                    className="form-control"
                                                                     onChange={(e) => {
                                                                         const tmpQuery = {}
                                                                         tmpQuery[header.id] = e.target.value
