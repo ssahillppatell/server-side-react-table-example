@@ -57,8 +57,9 @@ const ServerSideTable = () => {
 
     return (
         <div className="container  " >
+            <h1 className="" >ServerSideTable</h1>
             <Table hover className="text-nowrap" >
-                <thead className="table-header" >
+                <thead >
                     {getHeaderGroups().map((headerGroup, index) => (
                         <tr key={index}>
                             {headerGroup.headers.map((header, idx) => (
@@ -147,10 +148,10 @@ const ServerSideTable = () => {
                 </tbody>
             </Table>
             <div>
-                <button onClick={() => setPagination({ ...pagination, index: pagination.index - 1 })}>
+                <button className="btn btn-primary mr-2" onClick={() => setPagination({ ...pagination, index: pagination.index - 1 })}>
                     Previous
                 </button>
-                <button onClick={() => setPagination({ ...pagination, index: pagination.index + 1 })}>
+                <button className="btn btn-primary m-2" onClick={() => setPagination({ ...pagination, index: pagination.index + 1 })}>
                     Next
                 </button>
             </div>
