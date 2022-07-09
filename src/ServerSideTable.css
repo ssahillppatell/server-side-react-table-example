@@ -3,7 +3,7 @@ table {
     height: 80%;
 }
 
-table th {
+.table-header {
     position: -webkit-sticky;
     position: sticky;
     top: 0;

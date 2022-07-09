@@ -15,7 +15,7 @@ const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
   const [pagination, setPagination] = useState({
     index: 1,
-    limit: 20,
+    limit: 10,
   });
   const [sort, setSort] = useState({});
   const [query, setQuery] = useState({});
@@ -61,8 +61,15 @@ const ServerSideTable = () => {
 
   return (
     <div>
-      <table>
-        <thead>
+      <div className="table-container"
+        style={{
+          width: "100vw",
+          overflowX: "auto",
+          position: "relative",
+          height: "calc(100vh - 100px)",
+        }}
+      >
+        <div className="table-header">
           {getHeaderGroups().map((headerGroup, index) => (
             <tr key={index}>
               {headerGroup.headers.map((header, idx) => (
@@ -175,19 +182,21 @@ const ServerSideTable = () => {
               ))}
             </tr>
           ))}
-        </thead>
-        <tbody>
-          {getRowModel().rows.map((row, index) => (
-            <tr key={index}>
-              {row.getVisibleCells().map((cell, idx) => (
-                <td key={idx}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        </div>
+        <table>
+          <tbody>
+            {getRowModel().rows.map((row, index) => (
+              <tr key={index}>
+                {row.getVisibleCells().map((cell, idx) => (
+                  <td key={idx}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
         <button
           onClick={() =>
