@@ -1,13 +1,12 @@
-table {
-    width: 80%;
-    height: 80%;
-}
-
 .table-header {
     position: -webkit-sticky !important;
     position: sticky !important;
-    top: 0 !important;
+    top: -10px !important;
     z-index: 1 !important;
     background: #fff;
     box-shadow: 0 2px 0 #e5e5e5;
+}
+
+.table-header th {
+    vertical-align: text-top;
 }
