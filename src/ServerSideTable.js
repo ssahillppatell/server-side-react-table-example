@@ -70,6 +70,11 @@ const ServerSideTable = () => {
                                             <div>
                                                 <div
                                                     onClick={() => {
+                                                        headerGroup.headers.forEach(h => {
+                                                            if(h.column.columnDef["sort"]) {
+                                                                h.column.columnDef["sort"] = false
+                                                            }
+                                                        })
                                                         const tmpSort = {}
                                                         console.log(header.column.columnDef["sort"]);
                                                         if(header.column.columnDef["sort"]) {
@@ -89,10 +94,7 @@ const ServerSideTable = () => {
                                                         )
                                                     }
                                                     {
-                                                        {
-                                                            asc: ' 🔼',
-                                                            desc: ' 🔽',
-                                                        }[header.column.getIsSorted()] ?? null
+                                                        header.column.columnDef["sort"] ? (header.column.columnDef["sort"] === 1 ? ' 🔼' : ' 🔽') : null
                                                     }
                                                 </div>
                                                 {
