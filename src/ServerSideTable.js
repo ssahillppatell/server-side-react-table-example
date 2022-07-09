@@ -15,10 +15,11 @@ const ServerSideTable = () => {
   const [doctors, setDoctors] = useState([]);
   const [pagination, setPagination] = useState({
     index: 1,
-    limit: 10,
+    limit: 2,
   });
   const [sort, setSort] = useState({});
   const [query, setQuery] = useState({});
+  const [count, setCount] = useState(0);
 
   const { data, loading, error, refetch } = useQuery(DOCTORS_QUERY, {
     variables: {
@@ -29,6 +30,7 @@ const ServerSideTable = () => {
     },
     onCompleted: (data) => {
       setDoctors(data.getDoctors.data);
+      setCount(data.getDoctors.info.count);
     },
   });
 
@@ -44,6 +46,7 @@ const ServerSideTable = () => {
   useEffect(() => {
     if (data) {
       setDoctors(data.getDoctors.data);
+      setCount(data.getDoctors.info.count);
     }
   }, [data]);
 
@@ -199,12 +202,31 @@ const ServerSideTable = () => {
       </div>
       <div>
         <button
+          disabled={pagination.index === 1}
           onClick={() =>
             setPagination({ ...pagination, index: pagination.index - 1 })
           }
         >
           Previous
         </button>
+        {
+          [pagination.index - 2, pagination.index - 1, pagination.index, pagination.index + 1, pagination.index + 2].map((i) => {
+            if(i > 0) {
+              return (
+                <button
+                  onClick={() => setPagination({
+                    index: i,
+                    limit: pagination.limit
+                  })}
+                >
+                  {i}
+                </button>
+              )
+            } else {
+              return null
+            }
+          })
+        }
         <button
           onClick={() =>
             setPagination({ ...pagination, index: pagination.index + 1 })

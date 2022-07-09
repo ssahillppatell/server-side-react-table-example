@@ -9,5 +9,8 @@ table {
     top: 0;
     z-index: 1;
     background: #fff;
+}
+
+.table-header th {
     border-bottom: 2px solid #e5e5e5;
 }
